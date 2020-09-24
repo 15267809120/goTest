@@ -1,15 +1,23 @@
 package main
 
 import (
-	"net/http"
-
-	"github.com/labstack/echo"
+	"fhw.com/controller/cv1"
+	"github.com/gin-gonic/gin"
 )
 
+
+
+
+
+
 func main(){
-	e := echo.New()
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
-	e.Logger.Fatal(e.Start(":1323"))
+	router := gin.Default()
+	v1 := router.Group("v1")
+	{
+		v1.POST("user/login", cv1.Login)
+		v1.GET("goods/search/name/:name", cv1.Search)
+		v1.GET("/ip", cv1.GetIp)
+	}
+	//在8080端口上监听
+	router.Run(":8080")
 }
